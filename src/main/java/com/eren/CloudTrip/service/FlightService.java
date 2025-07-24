@@ -4,6 +4,7 @@ package com.eren.CloudTrip.service;
 import com.eren.CloudTrip.model.Flight;
 import com.eren.CloudTrip.repo.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

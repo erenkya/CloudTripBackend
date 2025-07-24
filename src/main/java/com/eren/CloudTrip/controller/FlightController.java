@@ -3,6 +3,7 @@ package com.eren.CloudTrip.controller;
 import com.eren.CloudTrip.model.Flight;
 import com.eren.CloudTrip.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,10 +20,11 @@ public class FlightController {
     }
 
     @PostMapping("/addFlight")
-    public String addFlight(@RequestBody Flight flight){
+    public ResponseEntity<?> addFlight(@RequestBody Flight flight) {
         service.save(flight);
-        return "Success";
+        return ResponseEntity.ok(flight);
     }
+
 
     @PostMapping("/addFlights")
     public String addFlights(@RequestBody List<Flight> flights){
