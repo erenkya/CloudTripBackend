@@ -15,21 +15,19 @@ public class FlightController {
     FlightService service;
 
     @GetMapping("/getAllFlights")
-    public List<Flight> getAllFlights(){
+    public ResponseEntity<List<Flight>> getAllFlights(){
         return service.getAllFlights();
     }
 
     @PostMapping("/addFlight")
-    public ResponseEntity<?> addFlight(@RequestBody Flight flight) {
-        service.save(flight);
-        return ResponseEntity.ok(flight);
+    public ResponseEntity<String> addFlight(@RequestBody Flight flight) {
+
+        return service.save(flight);
     }
 
-
     @PostMapping("/addFlights")
-    public String addFlights(@RequestBody List<Flight> flights){
-        service.saveAll(flights);
-        return "Success";
+    public ResponseEntity<String> addFlights(@RequestBody List<Flight> flights){
+        return service.saveAll(flights);
     }
 
 }

@@ -4,9 +4,11 @@ package com.eren.CloudTrip.service;
 import com.eren.CloudTrip.model.Flight;
 import com.eren.CloudTrip.repo.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,15 +17,35 @@ public class FlightService {
     FlightRepository repo;
 
 
-    public void save(Flight flight) {
-        repo.save(flight);
+    public ResponseEntity<String> save(Flight flight) {
+        try{
+            repo.save(flight);
+            return new ResponseEntity<>("Flight Id:"+flight.getId()+" Saved Successfully", HttpStatus.OK);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(e.toString(),HttpStatus.BAD_REQUEST);
+        }
     }
 
-    public void saveAll(List<Flight> flights) {
-        repo.saveAll(flights);
+    public ResponseEntity<String> saveAll(List<Flight> flights) {
+        try{
+            repo.saveAll(flights);
+            return new ResponseEntity<>("Flights Saved Successfully", HttpStatus.OK);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(e.toString(),HttpStatus.BAD_REQUEST);
+        }
     }
 
-    public List<Flight> getAllFlights() {
-        return repo.findAll();
+    public ResponseEntity<List<Flight>> getAllFlights() {
+        try{
+            return new ResponseEntity<>(repo.findAll(), HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(),HttpStatus.BAD_REQUEST);
+
     }
 }

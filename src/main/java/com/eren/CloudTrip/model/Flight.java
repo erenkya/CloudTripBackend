@@ -103,4 +103,6 @@ public class Flight {
     public void setSeatCapacity(int seatCapacity) {
         this.seatCapacity = seatCapacity;
     }
+
+
 }
