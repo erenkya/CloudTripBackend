@@ -198,15 +198,12 @@ The API returns responses in the following formats:
 4. Push to the branch (`git push origin feature/new-feature`)
 5. Create a Pull Request
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
 
 **Developer**: Eren  
-**Project**: CloudTrip API  
-**Repository**: [GitHub Repository URL]
+**Project**: CloudTrip Backend (API)  
+
 
 ---
 
