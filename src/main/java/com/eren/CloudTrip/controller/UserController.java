@@ -37,6 +37,11 @@ public class UserController {
         return service.purchaseFlight(userId,flightId);
     }
 
+    @PutMapping("/cancelFlight/{userId}/{flightId}")
+    public ResponseEntity<String> cancelFlight(@PathVariable int userId , @PathVariable int flightId ){
+        return service.cancelFlight(userId,flightId);
+    }
+
 
 
 

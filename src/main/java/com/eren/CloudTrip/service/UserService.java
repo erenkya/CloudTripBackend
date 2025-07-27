@@ -88,4 +88,38 @@ public class UserService {
 
 
     }
+
+    public ResponseEntity<String> cancelFlight(int userId, int flightId) {
+        try {
+            Optional<User> userOptional = repo.findById(userId);
+            if(userOptional.isEmpty()) {
+                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+            }
+            User user = userOptional.get();
+
+            Optional<Flight> flightOptional =flightRepository.findById(flightId);
+            if(flightOptional.isEmpty()){
+                return new ResponseEntity<>("Flight not found" , HttpStatus.NOT_FOUND);
+            }
+            Flight flight = flightOptional.get();
+
+            boolean flightChecker = false;
+            for(Flight listElement: user.getPurchasedFlights()){
+                if(listElement.getId() == flightId)
+                    flightChecker = true;
+            }
+            if (flightChecker == false){
+                return new ResponseEntity<>("There is no purchased flight with flightID:"+flightId+" for user with userID:" + userId , HttpStatus.NOT_FOUND);
+            }
+
+
+            user.getPurchasedFlights().remove(flight);
+            repo.save(user);
+
+            return new ResponseEntity<>("UserID: " + user.getId() + " FlightID: " + flight.getId() + " cancelation has been made" , HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Failed" , HttpStatus.BAD_REQUEST);
+        }
+    }
 }
