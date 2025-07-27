@@ -19,6 +19,11 @@ public class UserController {
 
 
 
+    @GetMapping("/validate/{email}/{password}")
+    public boolean validateUser(@PathVariable String email , @PathVariable String password){
+        return service.validateUser(email,password);
+    }
+
     @GetMapping("/getAllUsers")
     public ResponseEntity<List<User>> getAllUsers(){
         return service.getAllUsers();

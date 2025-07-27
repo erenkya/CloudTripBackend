@@ -14,6 +14,7 @@ public class User{
     private String password;
     private String name;
     private String surname;
+    private String role;
 
     @ManyToMany
     private List<Flight> purchasedFlights;
@@ -78,5 +79,13 @@ public class User{
 
     public void setPurchasedFlights(List<Flight> purchasedFlights) {
         this.purchasedFlights = purchasedFlights;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
