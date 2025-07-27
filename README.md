@@ -173,6 +173,14 @@ spring.datasource.url=jdbc:h2:mem:testdb
 spring.datasource.driver-class-name=org.h2.Driver
 spring.jpa.hibernate.ddl-auto=update
 ```
+Make sure to configure the following in your `.env`:
+
+```properties
+# Set JWT Secret
+JWT_SECRET=your-jwt-secret-will-be-here
+
+
+```
 
 ## Security Features
 
