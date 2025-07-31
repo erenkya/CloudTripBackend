@@ -76,7 +76,15 @@ public class UserService {
             }
             Flight flight = flightOptional.get();
 
+            if (flight.getSeatCapacity() <= 0) {
+                return new ResponseEntity<>("No available seats for this flight", HttpStatus.BAD_REQUEST);
+            }
 
+            // Seat capacity azalt
+            flight.setSeatCapacity(flight.getSeatCapacity() - 1);
+            flightRepository.save(flight);
+
+            // Uçuşu kullanıcıya ekle
             user.getPurchasedFlights().add(flight);
             repo.save(user);
 
@@ -85,8 +93,6 @@ public class UserService {
             e.printStackTrace();
             return new ResponseEntity<>("Failed" , HttpStatus.BAD_REQUEST);
         }
-
-
     }
 
     public ResponseEntity<String> cancelFlight(int userId, int flightId) {
@@ -108,11 +114,15 @@ public class UserService {
                 if(listElement.getId() == flightId)
                     flightChecker = true;
             }
-            if (flightChecker == false){
+            if (!flightChecker){
                 return new ResponseEntity<>("There is no purchased flight with flightID:"+flightId+" for user with userID:" + userId , HttpStatus.NOT_FOUND);
             }
 
+            // Seat capacity arttır
+            flight.setSeatCapacity(flight.getSeatCapacity() + 1);
+            flightRepository.save(flight);
 
+            // Uçuşu kullanıcıdan çıkar
             user.getPurchasedFlights().remove(flight);
             repo.save(user);
 
