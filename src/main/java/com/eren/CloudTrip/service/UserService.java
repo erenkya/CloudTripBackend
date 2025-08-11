@@ -142,7 +142,7 @@ public class UserService {
             return new ResponseEntity<>("Failed" , HttpStatus.BAD_REQUEST);
         }
     }
-
+//
     public boolean validateUser(String email, String password) {
         Optional<User> userOptional = repo.findByEmail(email);
         if(userOptional.isEmpty()) {
