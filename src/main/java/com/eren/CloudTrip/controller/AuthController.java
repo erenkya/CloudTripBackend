@@ -4,8 +4,11 @@ package com.eren.CloudTrip.controller;
 import com.eren.CloudTrip.service.JwtService;
 import com.eren.CloudTrip.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -21,25 +24,41 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
+//    @PostMapping("/token")
+//    public String generateToken(@RequestParam String email , @RequestParam String password){
+//
+//        if (userService.validateUser(email,password)){
+//            return jwtService.generateToken(email);
+//        }
+//        else{
+//            return "Credentials invalid";
+//        }
+//
+//
+//    }
     @PostMapping("/token")
-    public String generateToken(@RequestParam String email , @RequestParam String password){
+    public ResponseEntity<String> generateToken(@RequestParam String email , @RequestParam String password){
 
         if (userService.validateUser(email,password)){
-            return jwtService.generateToken(email);
+            String token = jwtService.generateToken(email);
+            return ResponseEntity.ok(token);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credentials invalid");
         }
-        else{
-            return "Credentials invalid";
-        }
-
-
     }
 
+
     @GetMapping("/validate")
-    public String validateToken(@RequestParam String token){
+    public ResponseEntity<String> validateToken(@RequestParam String token){
         boolean isValid = jwtService.isTokenValid(token);
 
-        return isValid?"Token is valid Email: " + jwtService.extractEmail(token) :"Token is not valid";
-
+        if (isValid) {
+            return ResponseEntity.ok("Token is valid Email: " + jwtService.extractEmail(token));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Token is not valid");
+        }
     }
 
 }

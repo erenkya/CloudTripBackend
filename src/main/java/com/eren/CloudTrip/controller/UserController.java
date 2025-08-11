@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 ////
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -33,10 +34,20 @@ public class UserController {
         return service.getUser(id);
     }
 
+    @GetMapping("/getUserByEmail/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email){
+        return service.getUserByEmail(email);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<User> addUser(@RequestBody User user){
         return service.addUser(user);
     }
+
+    @PutMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody User user){ return service.changePassword(user); }
+
+
     @PostMapping("/purchaseFlight/{userId}/{flightId}")
     public ResponseEntity<String> purchaseFlight(@PathVariable int userId , @PathVariable int flightId ){
         return service.purchaseFlight(userId,flightId);

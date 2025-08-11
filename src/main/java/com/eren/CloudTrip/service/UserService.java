@@ -46,6 +46,16 @@ public class UserService {
             return new ResponseEntity<>(new User(), HttpStatus.BAD_REQUEST);
         }
     }
+    public ResponseEntity<User> getUserByEmail(String email) {
+        try {
+            return repo.findByEmail(email)
+                    .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+                    .orElseGet(() -> new ResponseEntity<>(new User(), HttpStatus.NOT_FOUND));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new User(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
 
     public ResponseEntity<User>  addUser(User user) {
@@ -142,4 +152,28 @@ public class UserService {
         return encoder.matches(password , user.getPassword());
 
     }
+
+    public ResponseEntity<?> changePassword(User user) {
+        try{
+            Optional<User>  userOptional =  repo.findById(user.getId());
+            if(userOptional.isEmpty()) {
+                return new ResponseEntity<>("User not found" , HttpStatus.NOT_FOUND);
+            }
+            User dependUser = userOptional.get();
+            if(dependUser == null){
+                return new ResponseEntity<>("User not found" , HttpStatus.NOT_FOUND);
+            }
+            if(encoder.matches(dependUser.getPassword(), encoder.encode(user.getPassword()))){
+                return new ResponseEntity<>("New password is same",HttpStatus.NOT_IMPLEMENTED);
+            }
+            repo.save(user);
+            return new ResponseEntity<>("Password changed successfully" , HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>("Something went wrong: " + e.toString() , HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
 }
